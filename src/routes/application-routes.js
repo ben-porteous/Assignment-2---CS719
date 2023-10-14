@@ -28,21 +28,17 @@ function getEnglishDex(pokemonDexExtryJson) {
 //Router for Home Site
 router.get("/", function (req, res) {
   const pokemon = getAllPokemon();
-  console.log(req.query.pokemon + " a")
-  const param = req.query.pokemon
-  console.log(param)
 
   if (req.query.pokemon) {
-    res.locals.pokemon = pokemon;
-
     function findPokemonIndexByDex(pokemon) {
       return pokemon.findIndex(function (item) {
         return item.dexNumber == req.query.pokemon
       })
     }
+
+    res.locals.pokemon = pokemon;
+
     const pokemonIndex = findPokemonIndexByDex(pokemon)
-
-
     res.locals.openingPokemonImage = pokemon[pokemonIndex].imageUrl;
     res.locals.openingPokemonNumber = pokemon[pokemonIndex].dexNumber;
     res.locals.openingPokemonName = pokemon[pokemonIndex].name;
@@ -55,7 +51,6 @@ router.get("/", function (req, res) {
     res.locals.openingPokemonName = pokemon[57].name;
     res.locals.openingPokemonTypes = pokemon[57].types;
     res.locals.openingPokemonAbout = pokemon[57].dexEntry;
-    // console.log(a + ' Growlithe should be the required pokemon')
   }
 
   res.render("home");
@@ -63,7 +58,7 @@ router.get("/", function (req, res) {
 
 
 
-//Function for processing dexNumber search data - returns user home
+//Router for processing dexNumber search data - returns user home with searched pokemon details showing
 router.get("/dexSearch", async function (req, res) {
   const dexNumber = req.query.newPokemonDex
   const pokemonString = await fetch(`https://pokeapi.co/api/v2/pokemon/${dexNumber}`)
