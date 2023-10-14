@@ -25,20 +25,20 @@ function getEnglishDex(pokemonDexExtryJson) {
 
 
 
-//Router for Home Site
+//Router for Home Site - Working Version
 router.get("/", function (req, res) {
   const pokemon = getAllPokemon();
 
   if (req.query.pokemon) {
     function findPokemonIndexByDex(pokemon) {
       return pokemon.findIndex(function (item) {
-        return item.dexNumber == req.query.pokemon
+        return item.dexNumber == req.query.pokemon;
       })
     }
 
     res.locals.pokemon = pokemon;
 
-    const pokemonIndex = findPokemonIndexByDex(pokemon)
+    const pokemonIndex = findPokemonIndexByDex(pokemon);
     res.locals.openingPokemonImage = pokemon[pokemonIndex].imageUrl;
     res.locals.openingPokemonNumber = pokemon[pokemonIndex].dexNumber;
     res.locals.openingPokemonName = pokemon[pokemonIndex].name;
@@ -57,21 +57,20 @@ router.get("/", function (req, res) {
 });
 
 
-
 //Router for processing dexNumber search data - returns user home with searched pokemon details showing
 router.get("/dexSearch", async function (req, res) {
-  const dexNumber = req.query.newPokemonDex
-  const pokemonString = await fetch(`https://pokeapi.co/api/v2/pokemon/${dexNumber}`)
-  const pokemonJson = await pokemonString.json()
+  const dexNumber = req.query.newPokemonDex;
+  const pokemonString = await fetch(`https://pokeapi.co/api/v2/pokemon/${dexNumber}`);
+  const pokemonJson = await pokemonString.json();
   const pokemonDexEntryString = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${dexNumber}`);
-  const pokemonDexExtryJson = await pokemonDexEntryString.json()
-  const types = []
+  const pokemonDexExtryJson = await pokemonDexEntryString.json();
+  const types = [];
   pokemonJson.types.forEach(function (type) {
-    capitaliseFirstLetter(type.type)
-    types.push(type.type.name)
+    capitaliseFirstLetter(type.type);
+    types.push(type.type.name);
   })
 
-  const dexEntryIndex = getEnglishDex(pokemonDexExtryJson)
+  const dexEntryIndex = getEnglishDex(pokemonDexExtryJson);
 
   //If there is no dexEntry (at least pokemon 1009) then prevent web crash by advising no entry available
   let dexEntry;
@@ -90,12 +89,11 @@ router.get("/dexSearch", async function (req, res) {
     dexEntry: dexEntry
   }
 
-  const pokemonJsonFile = readJson("./src/json/pokemon.json")
-  const stringedDatabase = JSON.stringify(pokemonJsonFile)
+  const pokemonJsonFile = readJson("./src/json/pokemon.json");
+  const stringedDatabase = JSON.stringify(pokemonJsonFile);
 
   if (stringedDatabase.includes(dexNumber)) {
-    console.log("This pokemon is already in the list")
-
+    console.log("This pokemon is already in the list");
   } else {
     capitaliseFirstLetter(requiredPokemonJson)
     await pokemonJsonFile.push(requiredPokemonJson)
