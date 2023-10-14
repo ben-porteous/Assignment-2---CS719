@@ -48,11 +48,11 @@ router.get("/dexSearch", async function (req, res) {
   const pokemonDexExtryJson = await pokemonDexEntryString.json()
   const types = []
   pokemonJson.types.forEach(function (type) {
+    capitaliseFirstLetter(type.type)
     types.push(type.type.name)
   })
 
   const dexEntryIndex = getEnglishDex(pokemonDexExtryJson)
-  console.log('dexEntryIndex', dexEntryIndex)
 
   const requiredPokemonJson = {
     dexNumber: dexNumber,
@@ -69,10 +69,17 @@ router.get("/dexSearch", async function (req, res) {
   if (stringedDatabase.includes(dexNumber)) {
     console.log("This pokemon is already in the list")
   } else {
+    // capitalizeFirstLetter(requiredPokemonJson)
+    capitaliseFirstLetter(requiredPokemonJson)
     pokemonJsonFile.push(requiredPokemonJson)
     writeJson(pokemonJsonFile, "./src/json/pokemon.json")
   }
 
+  function capitaliseFirstLetter(item) {
+    const value = item.name[0].toUpperCase() 
+    const updatedValue = value + item.name.slice(1);
+    item.name = updatedValue
+  }
 
 
   res.redirect("/")
