@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllPokemon } = require("../db/pokemon-db");
+const { getAllPokemon, getPokemonByDexNumber } = require("../db/pokemon-db");
 const router = express.Router();
 const db = require("../db/db.js")
 const pokemonDatabase = require("../json/pokemon.json")
@@ -91,7 +91,7 @@ router.get("/dexSearch", async function (req, res) {
 //   console.log(req.params.dexNumber)
 
 //   //function to find index of the requested pokemon
-//   const pokeIndex = functions.getPokemonByDexNumber(req.params.dexNumber);
+//   const pokeIndex = getPokemonByDexNumber(req.params.dexNumber);
 //   console.log(pokeIndex); /// console.log produces dexSearch
 
 //   //Problem: index is not going to be the same as pokemon because there won't be index 999, I need to find IndexOf
