@@ -81,8 +81,27 @@ router.get("/dexSearch", async function (req, res) {
   }
 
 
-  res.redirect("/")
+
+  res.redirect(`/pokemon/${requiredPokemonJson.dexNumber}`)
 })
+
+router.get("/pokemon/:dexNumber", function (req, res) {
+  // TODO Add necessary data to res.locals before rendering the "home" page.
+  const pokemon = getAllPokemon();
+  const pokemonDex = req.params.dexNumber
+  console.log(pokemonDex)
+
+  res.locals.pokemon = pokemon;
+  res.locals.openingPokemonImage = pokemon[20].imageUrl;
+  res.locals.openingPokemonNumber = pokemon[20].dexNumber;
+  res.locals.openingPokemonName = pokemon[20].name;
+  res.locals.openingPokemonTypes = pokemon[20].types;
+  res.locals.openingPokemonAbout = pokemon[20].dexEntry;
+
+  res.render("home");
+});
+
+
 
 module.exports = router;
 
