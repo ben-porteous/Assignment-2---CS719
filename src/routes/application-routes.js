@@ -5,6 +5,8 @@ const db = require("../db/db.js")
 const pokemonDatabase = require("../json/pokemon.json")
 const fs = require("fs");
 const { ifError } = require("assert");
+const functions = require("../db/pokemon-db.js")
+
 
 function readJson(fileName) {
   const data = fs.readFileSync(fileName);
@@ -68,7 +70,7 @@ router.get("/dexSearch", async function (req, res) {
     console.log("This pokemon is already in the list")
   } else {
     capitaliseFirstLetter(requiredPokemonJson)
-    pokemonJsonFile.push(requiredPokemonJson)
+    await pokemonJsonFile.push(requiredPokemonJson)
     writeJson(pokemonJsonFile, "./src/json/pokemon.json")
   }
 
@@ -78,32 +80,30 @@ router.get("/dexSearch", async function (req, res) {
     item.name = updatedValue
   }
 
-  res.redirect(`/pokemon/${requiredPokemonJson.dexNumber}`)
+  res.redirect("/")
+
+  // res.redirect(`/pokemon/${requiredPokemonJson.dexNumber}`)
 })
 
-//NEED TO FIX CSS FOR THIS AND ALSO WHEN LOADS THE DEXNO IS NOT IN THE POKEMON.JSON DATABASE??
-router.get("/pokemon/:dexNumber", function (req, res) {
-  const pokemon = getAllPokemon();
-  const pokemonDex = req.params.dexNumber
-  console.log(pokemonDex)
+//NEED TO FIX CSS FOR THIS AND ALSO WHEN LOADS THE DEXNO IS NOT IN THE POKEMON.JSON DATABASE?? WHY DOES SEARCH BECOME URL PARAMETER?
+// router.get("/pokemon/:dexNumber", function (req, res) {
+//   const pokemon = getAllPokemon();
+//   console.log(req.params.dexNumber)
 
-  //function to find index of the requested pokemon
-  const pokeIndex = pokemon.findIndex(function(item) {
-    console.log(item.dexNumber)
-    return item.dexNumber == pokemonDex;
-  })
-  console.log(pokeIndex);
+//   //function to find index of the requested pokemon
+//   const pokeIndex = functions.getPokemonByDexNumber(req.params.dexNumber);
+//   console.log(pokeIndex); /// console.log produces dexSearch
 
-  //Problem: index is not going to be the same as pokemon because there won't be index 999, I need to find IndexOf
-  res.locals.pokemon = pokemon;
-  res.locals.openingPokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemonDex}.png`;
-  res.locals.openingPokemonNumber = pokemonDex;
-  res.locals.openingPokemonName = pokemon[20].name;
-  res.locals.openingPokemonTypes = pokemon[20].types;
-  res.locals.openingPokemonAbout = pokemon[20].dexEntry;
+//   //Problem: index is not going to be the same as pokemon because there won't be index 999, I need to find IndexOf
+//   res.locals.pokemon = pokemon;
+//   res.locals.openingPokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${2}.png`;
+//   res.locals.openingPokemonNumber = 20;
+//   res.locals.openingPokemonName = pokemon[20].name;
+//   res.locals.openingPokemonTypes = pokemon[20].types;
+//   res.locals.openingPokemonAbout = pokemon[20].dexEntry;
 
-  res.render("home");
-});
+//   res.render("home");
+// });
 
 
 
