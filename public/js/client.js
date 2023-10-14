@@ -8,7 +8,8 @@ window.addEventListener("load", function () {
   const detailsContainer = document.querySelector("#detailsContainer");
 
   pokemonButtons.forEach(async function (button) {
-    const pokemonString = await fetch(`./api/pokemon/${button.id}`);
+    let buttonDex = button.id.split('-')
+    const pokemonString = await fetch(`./api/pokemon/${buttonDex[1]}`);
     const pokemonJson = await pokemonString.json();
     button.addEventListener("click", function () {
       loadPokemonDetails(pokemonJson);
