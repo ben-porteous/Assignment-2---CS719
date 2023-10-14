@@ -23,6 +23,8 @@ function getEnglishDex(pokemonDexExtryJson) {
   })
 }
 
+
+
 //Router for Home Site
 router.get("/", function (req, res) {
   const pokemon = getAllPokemon();
@@ -31,25 +33,21 @@ router.get("/", function (req, res) {
   console.log(param)
 
   if (req.query.pokemon) {
-    //write a code to identify the index number of the pokemon dex in req.query.pokemon
     res.locals.pokemon = pokemon;
-    const dexOfSearchedPokemon = getPokemonByDexNumber(req.query.pokemon)
-    const check = pokemon.findIndex(function(item) {
-      item.dexNumber == param
-    })
+
+    function findPokemonIndexByDex(pokemon) {
+      return pokemon.findIndex(function (item) {
+        return item.dexNumber == req.query.pokemon
+      })
+    }
+    const pokemonIndex = findPokemonIndexByDex(pokemon)
 
 
-
-    console.log(dexOfSearchedPokemon)
-    console.log(check) // returning not found
-
-
-    res.locals.openingPokemonImage = pokemon[req.query.pokemon - 1].imageUrl;
-    res.locals.openingPokemonNumber = pokemon[req.query.pokemon - 1].dexNumber;
-    res.locals.openingPokemonName = pokemon[req.query.pokemon - 1].name;
-    res.locals.openingPokemonTypes = pokemon[req.query.pokemon - 1].types;
-    res.locals.openingPokemonAbout = pokemon[req.query.pokemon - 1].dexEntry;
-    // console.log(a + " This Number should be the required pokemon")
+    res.locals.openingPokemonImage = pokemon[pokemonIndex].imageUrl;
+    res.locals.openingPokemonNumber = pokemon[pokemonIndex].dexNumber;
+    res.locals.openingPokemonName = pokemon[pokemonIndex].name;
+    res.locals.openingPokemonTypes = pokemon[pokemonIndex].types;
+    res.locals.openingPokemonAbout = pokemon[pokemonIndex].dexEntry;
   } else {
     res.locals.pokemon = pokemon;
     res.locals.openingPokemonImage = pokemon[57].imageUrl;
@@ -59,9 +57,6 @@ router.get("/", function (req, res) {
     res.locals.openingPokemonAbout = pokemon[57].dexEntry;
     // console.log(a + ' Growlithe should be the required pokemon')
   }
-  console.log("clear between pokemon page loads")
-
-
 
   res.render("home");
 });
@@ -119,8 +114,6 @@ router.get("/dexSearch", async function (req, res) {
   }
 
   res.redirect(`/?pokemon=${dexNumber}`)
-
-  // res.redirect(`/pokemon/${requiredPokemonJson.dexNumber}`)
 })
 
 
