@@ -8,18 +8,18 @@ window.addEventListener("load", function () {
   const detailsContainer = document.querySelector("#detailsContainer");
 
   pokemonButtons.forEach(async function (button) {
-    let buttonDex = button.id.split('-')
+    let buttonDex = button.id.split('-');
     const pokemonString = await fetch(`./api/pokemon/${buttonDex[1]}`);
     const pokemonJson = await pokemonString.json();
     button.addEventListener("click", function () {
       loadPokemonDetails(pokemonJson);
-      clearClass()
+      clearClass();
       button.classList.add("selected");
     });
   });
 
-  const growlithe = document.querySelector("#ID-58")
-  growlithe.classList.add("selected")
+  const growlithe = document.querySelector("#ID-58");
+  growlithe.classList.add("selected");
 
   function loadPokemonDetails(pokemonJson) {
     detailsContainer.innerHTML = `

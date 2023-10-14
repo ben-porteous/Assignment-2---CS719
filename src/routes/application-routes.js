@@ -25,7 +25,7 @@ function getEnglishDex(pokemonDexExtryJson) {
 
 
 
-//Router for Home Site - Working Version
+//Router for Home Site
 router.get("/", function (req, res) {
   const pokemon = getAllPokemon();
 
@@ -52,7 +52,7 @@ router.get("/", function (req, res) {
     res.locals.openingPokemonTypes = pokemon[57].types;
     res.locals.openingPokemonAbout = pokemon[57].dexEntry;
   }
-
+  
   res.render("home");
 });
 
