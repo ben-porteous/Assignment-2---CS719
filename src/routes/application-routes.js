@@ -17,14 +17,8 @@ function writeJson(object, fileName) {
 
 //Need to update the below - currently returns all applicable "en" and need to check index accuracy 
 function getEnglishDex(pokemonDexExtryJson) {
-  let i = 0
-  pokemonDexExtryJson.flavor_text_entries.forEach(function (item) {
-    if (item.language.name == "en") {
-      i++
-      return(i)
-    } else {
-      i++
-    }
+  return pokemonDexExtryJson.flavor_text_entries.findIndex(function (item) {
+    return item.language.name == "en"
   })
 }
 
@@ -56,13 +50,17 @@ router.get("/dexSearch", async function (req, res) {
   pokemonJson.types.forEach(function (type) {
     types.push(type.type.name)
   })
+
+  const dexEntryIndex = getEnglishDex(pokemonDexExtryJson)
+  console.log('dexEntryIndex', dexEntryIndex)
+
   const requiredPokemonJson = {
     dexNumber: dexNumber,
     name: `${pokemonJson.species.name}`,
     imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${dexNumber}.png`,
     smallImageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexNumber}.png`,
     types: `${types}`,
-    dexEntry: pokemonDexExtryJson.flavor_text_entries[0].flavor_text
+    dexEntry: pokemonDexExtryJson.flavor_text_entries[dexEntryIndex].flavor_text
   }
 
   const pokemonJsonFile = readJson("./src/json/pokemon.json")
@@ -71,8 +69,6 @@ router.get("/dexSearch", async function (req, res) {
   if (stringedDatabase.includes(dexNumber)) {
     console.log("This pokemon is already in the list")
   } else {
-    const testing232 = getEnglishDex(pokemonDexExtryJson) // Returns undefined rather than value
-    console.log(testing232) // as above - returns undefined rather than value
     pokemonJsonFile.push(requiredPokemonJson)
     writeJson(pokemonJsonFile, "./src/json/pokemon.json")
   }
