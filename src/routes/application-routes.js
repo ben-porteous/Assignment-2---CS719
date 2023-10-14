@@ -68,6 +68,7 @@ router.get("/dexSearch", async function (req, res) {
 
   if (stringedDatabase.includes(dexNumber)) {
     console.log("This pokemon is already in the list")
+
   } else {
     capitaliseFirstLetter(requiredPokemonJson)
     await pokemonJsonFile.push(requiredPokemonJson)

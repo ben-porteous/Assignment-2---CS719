@@ -24,7 +24,7 @@ window.addEventListener("load", function () {
   function loadPokemonDetails(pokemonJson) {
     detailsContainer.innerHTML = `
     <h1>Details</h1>
-    <img src="${pokemonJson.imageUrl}" alt="Sorry, there is no image of ${pokemonJson.name} available">
+    <img src="${pokemonJson.imageUrl}" alt="Unfortunately there is no image available for ${pokemonJson.name} available">
     <h1># ${pokemonJson.dexNumber} ${pokemonJson.name}</h1>
     <p><strong>Types:</strong> ${pokemonJson.types}</p>
     <p><strong>About ${pokemonJson.name}:</strong> ${pokemonJson.dexEntry}</p>
