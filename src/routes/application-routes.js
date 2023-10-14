@@ -15,7 +15,6 @@ function writeJson(object, fileName) {
   fs.writeFileSync(fileName, JSON.stringify(object));
 }
 
-//Need to update the below - currently returns all applicable "en" and need to check index accuracy 
 function getEnglishDex(pokemonDexExtryJson) {
   return pokemonDexExtryJson.flavor_text_entries.findIndex(function (item) {
     return item.language.name == "en"
@@ -24,7 +23,6 @@ function getEnglishDex(pokemonDexExtryJson) {
 
 //Router for Home Site
 router.get("/", function (req, res) {
-  // TODO Add necessary data to res.locals before rendering the "home" page.
   const pokemon = getAllPokemon();
 
   res.locals.pokemon = pokemon;
@@ -80,20 +78,26 @@ router.get("/dexSearch", async function (req, res) {
     item.name = updatedValue
   }
 
-
-
   res.redirect(`/pokemon/${requiredPokemonJson.dexNumber}`)
 })
 
+//NEED TO FIX CSS FOR THIS AND ALSO WHEN LOADS THE DEXNO IS NOT IN THE POKEMON.JSON DATABASE??
 router.get("/pokemon/:dexNumber", function (req, res) {
-  // TODO Add necessary data to res.locals before rendering the "home" page.
   const pokemon = getAllPokemon();
   const pokemonDex = req.params.dexNumber
   console.log(pokemonDex)
 
+  //function to find index of the requested pokemon
+  const pokeIndex = pokemon.findIndex(function(item) {
+    console.log(item.dexNumber)
+    return item.dexNumber == pokemonDex;
+  })
+  console.log(pokeIndex);
+
+  //Problem: index is not going to be the same as pokemon because there won't be index 999, I need to find IndexOf
   res.locals.pokemon = pokemon;
-  res.locals.openingPokemonImage = pokemon[20].imageUrl;
-  res.locals.openingPokemonNumber = pokemon[20].dexNumber;
+  res.locals.openingPokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemonDex}.png`;
+  res.locals.openingPokemonNumber = pokemonDex;
   res.locals.openingPokemonName = pokemon[20].name;
   res.locals.openingPokemonTypes = pokemon[20].types;
   res.locals.openingPokemonAbout = pokemon[20].dexEntry;
