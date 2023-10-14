@@ -18,6 +18,8 @@ window.addEventListener("load", function () {
     });
   });
 
+  const growlithe = document.querySelector("#ID-58")
+  growlithe.classList.add("selected")
 
   function loadPokemonDetails(pokemonJson) {
     detailsContainer.innerHTML = `

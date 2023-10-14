@@ -123,6 +123,8 @@ When complete, modify the paragraph below in this README to explain how you have
 #### How I implemented Task 5
 
 _TODO Your answer here._
+I applied id's to each pokemon button so that these were able to be referenced and subsequent changes could be applied such as their class. As IDs should not begin with a number I used ID-x (x being the individual pokemon dex number) which could then be 'split' to extract just the ID (the id needed to be the dex number rather than index as otherwise new added pokemon id would not align with their dexnumber which would make subsequent referencing in code later more difficult). When loading the buttons I added the event click listener which included the code to delete the class 'selected' from any other pokemon and add it to whatever button was just selected.  
+I applied the class 'selected' to my opening pokemon when the home page first loads. I did this via my client-side JS after the my button-liven function. This meant the code to add my opening pokemon 'selected' class only loads once rather than checking for that id each time the button creation function was iterated through which supports more efficient coding/loading.
 
 ![](./spec/03-intermediate-1.png)
 
