@@ -1,1 +1,0 @@
-{"dexNumber":"888","name":"zacian","imageUrl":"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/888.png","smallImageUrl":"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/888.png","types":"fairy"}

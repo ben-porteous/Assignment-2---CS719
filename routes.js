@@ -1,1 +1,0 @@
-{"dexNumber":"166","name":"ledian","imageUrl":"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/166.png","smallImageUrl":"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/166.png","types":"[object Object],[object Object]"}
