@@ -19,15 +19,8 @@ function writeJson(object, fileName) {
 
 function getEnglishDex(pokemonDexExtryJson) {
   return pokemonDexExtryJson.flavor_text_entries.findIndex(function (item) {
-    // const value = item.language.name == "en"
-    // console.log(value)
-    // if (value == false) {
-    //   console.log("There is no Dex Entry available - a")
-    //   return "no Dex Entry Available"
-    // } else {
     return item.language.name == "en"
   })
-  // })
 }
 
 //Router for Home Site
@@ -83,7 +76,7 @@ router.get("/dexSearch", async function (req, res) {
 
   if (stringedDatabase.includes(dexNumber)) {
     console.log("This pokemon is already in the list")
-
+    
   } else {
     capitaliseFirstLetter(requiredPokemonJson)
     await pokemonJsonFile.push(requiredPokemonJson)
@@ -124,5 +117,3 @@ router.get("/dexSearch", async function (req, res) {
 
 
 module.exports = router;
-
-
