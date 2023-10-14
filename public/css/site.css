@@ -120,3 +120,7 @@ body {
     position: initial;
   }
 }
+
+#searchEntry {
+  width: 120px;
+}

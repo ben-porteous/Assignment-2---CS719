@@ -19,8 +19,15 @@ function writeJson(object, fileName) {
 
 function getEnglishDex(pokemonDexExtryJson) {
   return pokemonDexExtryJson.flavor_text_entries.findIndex(function (item) {
+    // const value = item.language.name == "en"
+    // console.log(value)
+    // if (value == false) {
+    //   console.log("There is no Dex Entry available - a")
+    //   return "no Dex Entry Available"
+    // } else {
     return item.language.name == "en"
   })
+  // })
 }
 
 //Router for Home Site
@@ -54,13 +61,21 @@ router.get("/dexSearch", async function (req, res) {
 
   const dexEntryIndex = getEnglishDex(pokemonDexExtryJson)
 
+  //If there is no dexEntry (at least pokemon 1009) then prevent web crash by advising no entry available
+  let dexEntry;
+  if (pokemonDexExtryJson.flavor_text_entries[dexEntryIndex] == undefined) {
+    dexEntry = "There is no dex entry for this pokemon available"
+  } else {
+    dexEntry = pokemonDexExtryJson.flavor_text_entries[dexEntryIndex].flavor_text
+  }
+
   const requiredPokemonJson = {
     dexNumber: dexNumber,
     name: `${pokemonJson.species.name}`,
     imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${dexNumber}.png`,
     smallImageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexNumber}.png`,
     types: `${types}`,
-    dexEntry: pokemonDexExtryJson.flavor_text_entries[dexEntryIndex].flavor_text
+    dexEntry: dexEntry
   }
 
   const pokemonJsonFile = readJson("./src/json/pokemon.json")
@@ -76,7 +91,7 @@ router.get("/dexSearch", async function (req, res) {
   }
 
   function capitaliseFirstLetter(item) {
-    const value = item.name[0].toUpperCase() 
+    const value = item.name[0].toUpperCase()
     const updatedValue = value + item.name.slice(1);
     item.name = updatedValue
   }
