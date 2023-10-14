@@ -18,6 +18,9 @@ window.addEventListener("load", function () {
   });
 
 
+  this.document.querySelector("")
+
+
   function loadPokemonDetails(pokemonJson) {
     detailsContainer.innerHTML = `
     <h1>Details</h1>
@@ -27,6 +30,7 @@ window.addEventListener("load", function () {
     <p><strong>About ${pokemonJson.name}:</strong> ${pokemonJson.dexEntry}</p>
     `
   };
+
 
   function clearClass() {
     const selected = document.querySelectorAll(".selected");
