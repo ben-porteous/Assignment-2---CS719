@@ -26,13 +26,42 @@ function getEnglishDex(pokemonDexExtryJson) {
 //Router for Home Site
 router.get("/", function (req, res) {
   const pokemon = getAllPokemon();
+  console.log(req.query.pokemon + " a")
+  const param = req.query.pokemon
+  console.log(param)
 
-  res.locals.pokemon = pokemon;
-  res.locals.openingPokemonImage = pokemon[57].imageUrl;
-  res.locals.openingPokemonNumber = pokemon[57].dexNumber;
-  res.locals.openingPokemonName = pokemon[57].name;
-  res.locals.openingPokemonTypes = pokemon[57].types;
-  res.locals.openingPokemonAbout = pokemon[57].dexEntry;
+  if (req.query.pokemon) {
+    //write a code to identify the index number of the pokemon dex in req.query.pokemon
+    res.locals.pokemon = pokemon;
+    const dexOfSearchedPokemon = getPokemonByDexNumber(req.query.pokemon)
+    const check = pokemon.findIndex(function(item) {
+      item.dexNumber == param
+    })
+
+
+
+    console.log(dexOfSearchedPokemon)
+    console.log(check) // returning not found
+
+
+    res.locals.openingPokemonImage = pokemon[req.query.pokemon - 1].imageUrl;
+    res.locals.openingPokemonNumber = pokemon[req.query.pokemon - 1].dexNumber;
+    res.locals.openingPokemonName = pokemon[req.query.pokemon - 1].name;
+    res.locals.openingPokemonTypes = pokemon[req.query.pokemon - 1].types;
+    res.locals.openingPokemonAbout = pokemon[req.query.pokemon - 1].dexEntry;
+    // console.log(a + " This Number should be the required pokemon")
+  } else {
+    res.locals.pokemon = pokemon;
+    res.locals.openingPokemonImage = pokemon[57].imageUrl;
+    res.locals.openingPokemonNumber = pokemon[57].dexNumber;
+    res.locals.openingPokemonName = pokemon[57].name;
+    res.locals.openingPokemonTypes = pokemon[57].types;
+    res.locals.openingPokemonAbout = pokemon[57].dexEntry;
+    // console.log(a + ' Growlithe should be the required pokemon')
+  }
+  console.log("clear between pokemon page loads")
+
+
 
   res.render("home");
 });
@@ -76,7 +105,7 @@ router.get("/dexSearch", async function (req, res) {
 
   if (stringedDatabase.includes(dexNumber)) {
     console.log("This pokemon is already in the list")
-    
+
   } else {
     capitaliseFirstLetter(requiredPokemonJson)
     await pokemonJsonFile.push(requiredPokemonJson)
@@ -89,31 +118,10 @@ router.get("/dexSearch", async function (req, res) {
     item.name = updatedValue
   }
 
-  res.redirect("/")
+  res.redirect(`/?pokemon=${dexNumber}`)
 
   // res.redirect(`/pokemon/${requiredPokemonJson.dexNumber}`)
 })
-
-//NEED TO FIX CSS FOR THIS AND ALSO WHEN LOADS THE DEXNO IS NOT IN THE POKEMON.JSON DATABASE?? WHY DOES SEARCH BECOME URL PARAMETER?
-// router.get("/pokemon/:dexNumber", function (req, res) {
-//   const pokemon = getAllPokemon();
-//   console.log(req.params.dexNumber)
-
-//   //function to find index of the requested pokemon
-//   const pokeIndex = getPokemonByDexNumber(req.params.dexNumber);
-//   console.log(pokeIndex); /// console.log produces dexSearch
-
-//   //Problem: index is not going to be the same as pokemon because there won't be index 999, I need to find IndexOf
-//   res.locals.pokemon = pokemon;
-//   res.locals.openingPokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${2}.png`;
-//   res.locals.openingPokemonNumber = 20;
-//   res.locals.openingPokemonName = pokemon[20].name;
-//   res.locals.openingPokemonTypes = pokemon[20].types;
-//   res.locals.openingPokemonAbout = pokemon[20].dexEntry;
-
-//   res.render("home");
-// });
-
 
 
 module.exports = router;
