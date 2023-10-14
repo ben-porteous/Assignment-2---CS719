@@ -18,9 +18,6 @@ window.addEventListener("load", function () {
   });
 
 
-  this.document.querySelector("")
-
-
   function loadPokemonDetails(pokemonJson) {
     detailsContainer.innerHTML = `
     <h1>Details</h1>
@@ -34,7 +31,7 @@ window.addEventListener("load", function () {
 
   function clearClass() {
     const selected = document.querySelectorAll(".selected");
-    selected.forEach(function(element) {
+    selected.forEach(function (element) {
       element.classList.remove("selected");
     })
   }
