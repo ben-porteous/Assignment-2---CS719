@@ -18,8 +18,14 @@ window.addEventListener("load", function () {
     });
   });
 
-  const growlithe = document.querySelector("#ID-58");
-  growlithe.classList.add("selected");
+  //Add Selected class to button of displayed pokemon
+  const header = document.querySelector("#header")
+  const headerDex = header.innerText.split(' ')
+  const headerDex2 = headerDex[0].split('#')
+  console.log(headerDex2[1])
+  const currentPokemon = document.querySelector(`#ID-${headerDex2[1]}`)
+  currentPokemon.classList.add("selected")
+
 
   function loadPokemonDetails(pokemonJson) {
     detailsContainer.innerHTML = `
