@@ -124,3 +124,7 @@ body {
 #searchEntry {
   width: 120px;
 }
+
+#searched {
+  color: red;
+}

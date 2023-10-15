@@ -53,6 +53,10 @@ router.get("/", function (req, res) {
     res.locals.openingPokemonAbout = pokemon[57].dexEntry;
   }
 
+  if (req.query.searched == "true") {
+    res.locals.searching = "true"
+  }
+
   res.render("home");
 });
 
@@ -64,8 +68,11 @@ router.get("/dexSearch", async function (req, res) {
   const pokemonJsonFile = readJson("./src/json/pokemon.json");
   const stringedDatabase = JSON.stringify(pokemonJsonFile);
 
+  let searched = 1
+
   if (stringedDatabase.includes(dexNumber)) {
     console.log("This pokemon is already in the list");
+    searched = true
   } else {
     const pokemonString = await fetch(`https://pokeapi.co/api/v2/pokemon/${dexNumber}`);
     const pokemonJson = await pokemonString.json();
@@ -95,6 +102,7 @@ router.get("/dexSearch", async function (req, res) {
       types: `${types}`,
       dexEntry: dexEntry
     }
+    searched = false
 
     function capitaliseFirstLetter(item) {
       const value = item.name[0].toUpperCase()
@@ -108,7 +116,8 @@ router.get("/dexSearch", async function (req, res) {
   }
 
 
-  res.redirect(`/?pokemon=${dexNumber}`)
+
+  res.redirect(`/?pokemon=${dexNumber}&searched=${searched}`)
 })
 
 

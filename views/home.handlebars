@@ -5,13 +5,19 @@
   <div class="section">
     <h1>All Pokemon</h1>
 
-    <p>The below are a list of the original 151 pokemon - to add other pokemon please enter the pokemon's dex number here:</p>
+    <p>The below are a list of the original 151 pokemon - to add other pokemon please enter the pokemon's dex number
+      here:</p>
     <form method="GET" action="./dexSearch">
       <input type="number" name="newPokemonDex" min="1" max="1010" id="searchEntry">
       <button type="submit">Submit</button>
     </form>
+    {{#if searching}}
+    <p id="searched">This pokemon is already in your pokemon list</p>
+    {{/if}}
     <p><em>Note - a full list of all pokemon and their dex numbers can be accessed <a
           href="https://bulbapedia.bulbagarden.net/wiki/List_of_Pokémon_by_National_Pokédex_number">here</a></em></p>
+
+
 
     <div class="sprite-container">
       {{! TODO Display list of Pokemon here. }}
